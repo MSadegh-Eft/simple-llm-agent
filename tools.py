@@ -3,7 +3,6 @@ import wikipedia
 from ddgs import DDGS
 from langchain_core.tools import tool
 
-
 @tool("web_search")
 def search_tool(query: str) -> str:
     """Search the web for current information on a topic."""
