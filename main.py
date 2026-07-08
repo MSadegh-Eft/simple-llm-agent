@@ -42,3 +42,18 @@ llm3 = ChatAnthropic(
 
 
 parser = PydanticOutputParser(pydantic_object=ReasearchResopnse) 
+
+prompt = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            """
+            You are a research assistant. You will answer the user query and use neccessary tools.
+            Wrap the output in this format and provide no other text\n{format_instructions}
+            """,
+        ),
+        ("placeholder", "{chat_history}"),
+        ("human", "{query}"),
+        ("placeholder", "{agent_scratchpad}"),
+    ]
+).partial(format_instructions=parser.get_format_instructions())
