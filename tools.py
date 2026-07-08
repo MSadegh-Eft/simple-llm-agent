@@ -7,9 +7,6 @@ from langchain_core.tools import tool
 @tool("web_search")
 def search_tool(query: str) -> str:
     """Search the web for current information on a topic.
-
-    Use this for recent events, news, or anything a static knowledge
-    base like Wikipedia is unlikely to cover.
     """
     try:
         with DDGS() as ddgs:
