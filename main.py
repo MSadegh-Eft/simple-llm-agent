@@ -52,3 +52,19 @@ agent = create_agent(
     response_format=ResearchResponse,
 )
 
+def main() -> None:
+    query = input("What can I help you research? ")
+
+    raw_response = agent.invoke(
+        {"messages": [{"role": "user", "content": query}]}
+    )
+
+    structured_response = raw_response.get("structured_response")
+    if structured_response is not None:
+        print(structured_response)
+    else:
+        print("Error: no structured response was returned. Raw response - ", raw_response)
+
+
+if __name__ == "__main__":
+    main()
