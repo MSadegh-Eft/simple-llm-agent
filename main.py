@@ -1,12 +1,11 @@
 import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_xai import ChatXAI
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.output_parsers import PydanticOutputParser
+from langchain.agents import create_agent
+
 
 load_dotenv()
 
@@ -38,22 +37,11 @@ llm3 = ChatAnthropic(
     stop=None,
 )
 
-# llm4 = ChatOpenAI
 
+SYSTEM_PROMPT = """
+You are a research assistant that will help generate a research paper.
+Use the available tools to gather information before answering -- don't
+rely on memory alone. Once you have enough information, call the
+save_text_to_file tool to save your findings, then give your final answer.
+"""
 
-parser = PydanticOutputParser(pydantic_object=ReasearchResopnse) 
-
-prompt = ChatPromptTemplate.from_messages(
-    [
-        (
-            "system",
-            """
-            You are a research assistant. You will answer the user query and use neccessary tools.
-            Wrap the output in this format and provide no other text\n{format_instructions}
-            """,
-        ),
-        ("placeholder", "{chat_history}"),
-        ("human", "{query}"),
-        ("placeholder", "{agent_scratchpad}"),
-    ]
-).partial(format_instructions=parser.get_format_instructions())
