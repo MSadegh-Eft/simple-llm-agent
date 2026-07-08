@@ -6,3 +6,4 @@ langchain-anthropic
 langchain-gemini
 python-dotenv
 pydantic
+ddgs
